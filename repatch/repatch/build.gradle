@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply from: "$theRootDir/gradle/install.gradle"
+apply from: "$theRootDir/gradle/bintray-deploy.gradle"
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation deps.kotlin.std
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

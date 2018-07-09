@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+  compileSdkVersion buildConfig.compileSdk
+  defaultConfig {
+    applicationId "vn.tiki.android.repatch.sample"
+    minSdkVersion 21
+    targetSdkVersion buildConfig.targetSdk
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation deps.kotlin.std
+
+  implementation deps.support.appcompat
+  implementation deps.constraintLayout
+
+  implementation project(':repatch')
+
+  testImplementation deps.test.junit
+
+  androidTestImplementation deps.supportTest.runner
+  androidTestImplementation deps.supportTest.espresso
+}
