@@ -1,10 +1,32 @@
-ext {
-	// androidSdk
-	minSdk = 17
-	compileSdk = 27
-	targetSdk = 27
+ext.buildConfig = [
+    'minSdk'    : 17,
+    'compileSdk': 27,
+    'targetSdk' : 27,
+]
 
-	// dependencies
-	kotlin = '1.2.50'
-	androidSupport = '27.1.1'
-}
+def deps = [
+    'constraintLayout': "com.android.support.constraint:constraint-layout:1.1.2"
+]
+
+def kotlinVersion = '1.2.50'
+deps.kotlin = [
+    'gradle': "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+    'std'   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+]
+
+ext.supportVersion = '27.1.1'
+deps.support = [
+    'appcompat': "com.android.support:appcompat-v7:$supportVersion"
+]
+
+deps.supportTest = [
+    'runner'  : "com.android.support.test:runner:1.0.2",
+    'espresso': "com.android.support.test.espresso:espresso-core:3.0.2",
+]
+
+deps.test = [
+    'junit': "junit:junit:4.12",
+    'truth': "com.google.truth:truth:0.41",
+]
+
+ext.deps = deps
