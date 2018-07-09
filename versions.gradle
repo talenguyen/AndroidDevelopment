@@ -1,0 +1,10 @@
+ext {
+	// androidSdk
+	minSdk = 17
+	compileSdk = 27
+	targetSdk = 27
+
+	// dependencies
+	kotlin = '1.2.50'
+	androidSupport = '27.1.1'
+}
