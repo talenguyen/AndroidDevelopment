@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply from: "$theRootDir/install.gradle"
+apply from: "$theRootDir/bintray-deploy.gradle"
 
 android {
   compileSdkVersion buildConfig.compileSdk

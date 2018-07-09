@@ -21,7 +21,7 @@ dependencies {
   implementation deps.support.appcompat
   implementation deps.constraintLayout
 
-  implementation project(':di')
+  implementation 'vn.tiki.android:di:1.0.0'
 
   implementation 'com.android.support.constraint:constraint-layout:1.1.2'
   testImplementation deps.test.junit
