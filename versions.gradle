@@ -16,7 +16,8 @@ deps.kotlin = [
 
 ext.supportVersion = '27.1.1'
 deps.support = [
-    'appcompat': "com.android.support:appcompat-v7:$supportVersion"
+    'appcompat'   : "com.android.support:appcompat-v7:$supportVersion",
+    'recyclerview': "com.android.support:recyclerview-v7:$supportVersion",
 ]
 
 deps.supportTest = [
@@ -25,8 +26,14 @@ deps.supportTest = [
 ]
 
 deps.test = [
-    'junit': "junit:junit:4.12",
-    'truth': "com.google.truth:truth:0.41",
+    'junit'  : "junit:junit:4.12",
+    'truth'  : "com.google.truth:truth:0.41",
+    'mockito': "org.mockito:mockito-core:2.19.0",
+]
+
+def lifecycleVersion = "1.1.1"
+deps.arch = [
+    'extensions': "android.arch.lifecycle:extensions:$lifecycleVersion"
 ]
 
 ext.deps = deps

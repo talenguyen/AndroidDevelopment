@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from: "$theRootDir/gradle/install.gradle"
+apply from: "$theRootDir/gradle/bintray-deploy.gradle"
+
+android {
+  compileSdkVersion buildConfig.compileSdk
+
+  defaultConfig {
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.targetSdk
+  }
+
+  lintOptions {
+    textReport true
+    textOutput 'stdout'
+    // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks.
+    checkReleaseBuilds false
+  }
+}
+
+dependencies {
+  implementation deps.kotlin.std
+  implementation deps.support.appcompat
+  api deps.support.recyclerview
+
+  testImplementation deps.test.junit
+  testImplementation deps.test.truth
+  testImplementation deps.test.mockito
+}
