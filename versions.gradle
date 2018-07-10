@@ -16,6 +16,7 @@ deps.kotlin = [
 
 ext.supportVersion = '27.1.1'
 deps.support = [
+    'v4'          : "com.android.support:support-v4:$supportVersion",
     'appcompat'   : "com.android.support:appcompat-v7:$supportVersion",
     'recyclerview': "com.android.support:recyclerview-v7:$supportVersion",
 ]
