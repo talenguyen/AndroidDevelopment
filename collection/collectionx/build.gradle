@@ -25,6 +25,7 @@ dependencies {
 
   implementation project(':collection')
   implementation deps.support.recyclerview
+  implementation deps.constraintLayout
   implementation deps.arch.extensions
 
   testImplementation deps.test.junit
