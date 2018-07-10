@@ -19,10 +19,13 @@ dependencies {
   implementation deps.kotlin.std
 
   implementation deps.support.appcompat
+  implementation deps.support.recyclerview
   implementation deps.constraintLayout
   implementation deps.arch.extensions
 
-  implementation 'vn.tiki.android:collection:1.0.0'
+  implementation project(':collection')
+  implementation project(':collectionx')
+
   debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
   releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 

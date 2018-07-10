@@ -1,12 +1,16 @@
-package vn.tiki.android.collection.sample
+package vn.tiki.android.collection.sample.viewholder
 
 import android.view.View
 import android.widget.TextView
 import vn.tiki.android.collection.ListModel
 import vn.tiki.android.collection.SimpleViewHolderDelegate
 import vn.tiki.android.collection.ViewHolderDelegate
+import vn.tiki.android.collection.sample.R
 
-data class UserModel(val name: String, val onClick: () -> Unit) : ListModel {
+data class UserModel(val name: String) : ListModel {
+
+  var onClick: (() -> Unit)? = null
+
   override fun <T : ListModel> getViewHolderDelegateFactory(): () -> ViewHolderDelegate<T> {
     return {
       @Suppress("UNCHECKED_CAST")
@@ -15,7 +19,7 @@ data class UserModel(val name: String, val onClick: () -> Unit) : ListModel {
   }
 
   override fun getKey(): String {
-    return "UserModel $name"
+    return "vn.tiki.android.collection.sample.viewholder.UserModel$name"
   }
 }
 
@@ -27,7 +31,7 @@ class UserViewHolderDelegate : SimpleViewHolderDelegate<UserModel>() {
     super.bindView(view)
     nameTextView = view.findViewById(R.id.nameTextView)
     onClick(R.id.itemView) {
-      model.onClick()
+      model.onClick?.invoke()
     }
   }
 

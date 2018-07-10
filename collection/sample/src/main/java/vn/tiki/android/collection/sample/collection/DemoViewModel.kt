@@ -1,4 +1,4 @@
-package vn.tiki.android.collection.sample
+package vn.tiki.android.collection.sample.collection
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData

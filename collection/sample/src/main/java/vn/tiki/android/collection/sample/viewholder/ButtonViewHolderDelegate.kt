@@ -1,10 +1,12 @@
-package vn.tiki.android.collection.sample
+package vn.tiki.android.collection.sample.viewholder
 
 import android.view.View
 import android.widget.Button
 import vn.tiki.android.collection.ListModel
 import vn.tiki.android.collection.SimpleViewHolderDelegate
 import vn.tiki.android.collection.ViewHolderDelegate
+import vn.tiki.android.collection.sample.R.id
+import vn.tiki.android.collection.sample.R.layout
 
 data class ButtonModel(val text: String, val onClick: () -> Unit) : ListModel {
   override fun getKey(): String {
@@ -22,13 +24,13 @@ data class ButtonModel(val text: String, val onClick: () -> Unit) : ListModel {
 class ButtonViewHolderDelegate : SimpleViewHolderDelegate<ButtonModel>() {
   private lateinit var button: Button
   override fun layout(): Int {
-    return R.layout.item_button
+    return layout.item_button
   }
 
   override fun bindView(view: View) {
     super.bindView(view)
-    button = view.findViewById(R.id.itemView)
-    onClick(R.id.itemView) {
+    button = view.findViewById(id.itemView)
+    onClick(id.itemView) {
       model.onClick()
     }
   }

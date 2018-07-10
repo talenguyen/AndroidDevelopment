@@ -1,4 +1,4 @@
-package vn.tiki.android.collection.sample
+package vn.tiki.android.collection.sample.viewholder
 
 import android.view.View
 import android.widget.TextView
