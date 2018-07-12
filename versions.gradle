@@ -1,5 +1,5 @@
 ext.buildConfig = [
-    'minSdk'    : 17,
+    'minSdk'    : 16,
     'compileSdk': 27,
     'targetSdk' : 27,
 ]
