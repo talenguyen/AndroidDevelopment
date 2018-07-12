@@ -7,7 +7,7 @@ android {
   compileSdkVersion buildConfig.compileSdk
 
   defaultConfig {
-    minSdkVersion buildConfig.minSdk
+    minSdkVersion 16
     targetSdkVersion buildConfig.targetSdk
   }
 
