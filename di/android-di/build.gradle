@@ -21,7 +21,8 @@ android {
 
 dependencies {
   implementation deps.kotlin.std
-
+  implementation deps.support.appcompat
+  implementation project(':di')
   testImplementation deps.test.junit
   testImplementation deps.test.truth
 }
