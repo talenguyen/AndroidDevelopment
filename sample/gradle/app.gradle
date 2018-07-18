@@ -1,0 +1,86 @@
+apply plugin: 'com.android.application'
+
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 0
+def versionBuild = 0
+
+android {
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  compileSdkVersion buildConfig.compileSdk
+  defaultConfig {
+    minSdkVersion buildConfig.minSdk
+    targetSdkVersion buildConfig.targetSdk
+    // Making either of these two values dynamic in the defaultConfig will
+    // require a full APK build and reinstallation because the AndroidManifest.xml
+    // must be updated (which is not supported by Instant Run).
+    versionCode 1
+    versionName "1.0"
+    vectorDrawables.useSupportLibrary true
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+
+  lintOptions {
+    textReport true
+    textOutput 'stdout'
+    lintConfig rootProject.file('lint.xml')
+
+    // We run a full lint analysis as build part in CI, so skip vital checks for assemble task.
+    checkReleaseBuilds false
+  }
+
+  packagingOptions {
+    exclude 'kotlin/**'
+    exclude 'META-INF/*.kotlin_module'
+    exclude 'META-INF/*.version'
+  }
+
+  signingConfigs {
+    debug {
+      storeFile file("${rootDir}/keys/debug.keystore")
+      keyAlias 'androiddebugkey'
+      keyPassword 'android'
+      storePassword 'android'
+    }
+    release {
+      storeFile file("${rootDir}/keys/debug.keystore")
+      keyAlias 'androiddebugkey'
+      keyPassword 'android'
+      storePassword 'android'
+    }
+  }
+
+  buildTypes {
+    debug {
+      signingConfig signingConfigs.debug
+    }
+    release {
+      signingConfig signingConfigs.release
+      minifyEnabled true
+      proguardFiles(
+          getDefaultProguardFile('proguard-android.txt'),
+          rootProject.file('proguard-rules/proguard-app.pro'),
+          rootProject.file('proguard-rules/proguard-fabric.pro'),
+          rootProject.file('proguard-rules/proguard-facebook.pro'),
+          rootProject.file('proguard-rules/proguard-square.pro'),
+      )
+    }
+  }
+  // The defaultConfig values above are fixed, so your incremental builds don't
+  // need to rebuild the manifest (and therefore the whole APK, slowing build times).
+  // But for release builds, it's okay. So the following script iterates through
+  // all the known variants, finds those that are "release" build types, and
+  // changes those properties to something dynamic.
+  applicationVariants.all { variant ->
+    if (variant.buildType.name == "release") {
+      variant.outputs.each { output ->
+        output.versionCodeOverride = versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
+        output.versionNameOverride = "${versionMajor}.${versionMinor}.${versionPatch}" + "-" + variant.flavorName
+      }
+    }
+  }
+}

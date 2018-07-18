@@ -1,0 +1,12 @@
+apply plugin: 'com.android.feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: "$rootDir/gradle/android_common.gradle"
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation deps.kotlin.std
+
+  implementation deps.internal.base
+  implementation deps.internal.domain
+}

@@ -1,0 +1,14 @@
+apply plugin: 'com.android.feature'
+apply from: "$rootDir/gradle/android_common.gradle"
+
+android {
+  baseFeature true
+}
+
+dependencies {
+  api deps.support.appcompat
+  api deps.constraintLayout
+
+  application deps.internal.installed
+  feature deps.internal.repositories
+}

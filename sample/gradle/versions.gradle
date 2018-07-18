@@ -1,0 +1,96 @@
+ext.buildConfig = [
+    'minSdk'    : 21,
+    'compileSdk': 27,
+    'targetSdk' : 27,
+]
+
+def deps = [
+    'constraintLayout': "com.android.support.constraint:constraint-layout:1.1.2",
+    'ktx'             : "androidx.core:core-ktx:0.3",
+    'processphoenix'  : "com.jakewharton:process-phoenix:2.0.0",
+    'picasso'         : "com.squareup.picasso:picasso:2.71828",
+    'libphonenumber'  : "com.googlecode.libphonenumber:libphonenumber:7.4.4",
+    'gson'            : "com.google.code.gson:gson:2.8.0",
+    'instantapps'     : "com.google.android.instantapps:instantapps:1.1.0",
+]
+
+def kotlinVersion = '1.2.50'
+deps.kotlin = [
+    'gradle': "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+    'std'   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+]
+
+def coroutinesVersion = '0.22.5'
+deps.coroutines = [
+    'core'   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+    'android': "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
+]
+
+ext.supportVersion = '27.1.1'
+deps.support = [
+    'v4'          : "com.android.support:support-v4:$supportVersion",
+    'appcompat'   : "com.android.support:appcompat-v7:$supportVersion",
+    'design'      : "com.android.support:design:$supportVersion",
+    'recyclerview': "com.android.support:recyclerview-v7:$supportVersion",
+    'annotations' : "com.android.support:support-annotations:$supportVersion",
+]
+
+deps.tiki = [
+    'di'         : "vn.tiki.android:di:1.0.0",
+    'androiddi'  : "vn.tiki.android:androiddi:1.0.1",
+    'collection' : "vn.tiki.android:collection:1.0.2",
+    'collectionx': "vn.tiki.android:collectionx:1.0.2",
+]
+
+def leakCanaryVersion = '1.5.4'
+deps.leakcanary = [
+    'core': "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
+    'noOp': "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion",
+]
+
+def okhttpVersion = "3.10.0"
+deps.okhttp = [
+    'core'              : "com.squareup.okhttp3:okhttp:$okhttpVersion",
+    'urlconnection'     : "com.squareup.okhttp3:okhttp-urlconnection:$okhttpVersion",
+    'loggingintercepter': "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
+]
+
+def retrofitVersion = "2.4.0"
+deps.retrofit = [
+    'core'     : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+    'converter': "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+    'adapter'  : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+]
+
+deps.supportTest = [
+    'runner'  : "com.android.support.test:runner:1.0.2",
+    'espresso': "com.android.support.test.espresso:espresso-core:3.0.2",
+]
+
+deps.test = [
+    'junit'      : "junit:junit:4.12",
+    'truth'      : "com.google.truth:truth:0.41",
+    'mockito'    : "org.mockito:mockito-core:2.19.0",
+    'robolectric': "org.robolectric:robolectric:3.6.1",
+]
+
+def lifecycleVersion = "1.1.1"
+def navVersion = "1.0.0-alpha01"
+deps.arch = [
+    'extensions': "android.arch.lifecycle:extensions:$lifecycleVersion",
+    'core'      : "android.arch.lifecycle:livedata-core:$lifecycleVersion",
+    'nav'       : [
+        'fragment': "android.arch.navigation:navigation-fragment-ktx:$navVersion",
+        'ui'      : "android.arch.navigation:navigation-ui-ktx:$navVersion",
+    ]
+]
+
+deps.internal = [
+    'installed'   : project(':installed'),
+    'base'        : project(':presentation:base'),
+    'repositories': project(':presentation:repositories'),
+    'domain'      : project(':domain'),
+    'helper'      : project(':libraries:helper'),
+]
+
+ext.deps = deps

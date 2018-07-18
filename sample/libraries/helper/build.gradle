@@ -1,0 +1,11 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply from: "$rootDir/gradle/android_common.gradle"
+
+dependencies {
+  implementation deps.kotlin.std
+  implementation deps.ktx
+
+  testImplementation deps.test.junit
+  testImplementation deps.test.truth
+}

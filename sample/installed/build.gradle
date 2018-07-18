@@ -1,0 +1,13 @@
+apply plugin: 'com.android.application'
+apply from: "$rootDir/gradle/app.gradle"
+
+android {
+  defaultConfig {
+    applicationId "vn.tiki.android.githubsample"
+  }
+}
+
+dependencies {
+  implementation deps.internal.repositories
+  implementation deps.internal.base
+}

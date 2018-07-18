@@ -1,0 +1,19 @@
+// App
+include ':installed'
+
+// Instant app
+include ':instant'
+
+// Base module
+include ':presentation:base'
+
+// Feature modules
+include ':presentation:repositories'
+
+// Data layer
+
+// Domain layer
+include ':domain'
+
+// Library modules
+include ':libraries:helper'
