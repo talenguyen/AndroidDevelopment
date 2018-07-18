@@ -16,7 +16,8 @@ private val DEFAULT_DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListModel>() 
 }
 
 class OnlyAdapter(
-  diffCallback: ItemCallback<ListModel> = DEFAULT_DIFF_CALLBACK
+  diffCallback: ItemCallback<ListModel> = DEFAULT_DIFF_CALLBACK,
+  private val onListItemClick: OnListItemClick? = null
 ) : ListAdapter<ListModel, OnlyViewHolder<ListModel>>(diffCallback) {
 
   private val viewTypeManager = ViewTypeManager()
@@ -37,7 +38,7 @@ class OnlyAdapter(
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnlyViewHolder<ListModel> {
     val viewHolderDelegateFactory = viewHolderDelegateFactoryMap[viewType]
     val viewHolderDelegate: ViewHolderDelegate<ListModel> = viewHolderDelegateFactory!!.invoke()
-    return OnlyViewHolder.create(parent, viewHolderDelegate)
+    return OnlyViewHolder.create(parent, viewHolderDelegate, onListItemClick)
   }
 
   override fun onViewRecycled(holder: OnlyViewHolder<ListModel>) {

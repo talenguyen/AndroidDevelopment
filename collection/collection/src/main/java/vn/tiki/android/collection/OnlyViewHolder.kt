@@ -8,8 +8,11 @@ import android.view.ViewGroup
 
 class OnlyViewHolder<T : ListModel> private constructor(
   itemView: View,
-  private val viewHolderDelegate: ViewHolderDelegate<T>
+  private val viewHolderDelegate: ViewHolderDelegate<T>,
+  private val onListItemClick: OnListItemClick?
 ) : RecyclerView.ViewHolder(itemView), OnClickListener {
+
+  private lateinit var _model: T
 
   init {
     viewHolderDelegate.bindView(itemView)
@@ -20,6 +23,7 @@ class OnlyViewHolder<T : ListModel> private constructor(
   }
 
   internal fun bind(model: T) {
+    _model = model
     viewHolderDelegate.bind(model)
   }
 
@@ -31,17 +35,19 @@ class OnlyViewHolder<T : ListModel> private constructor(
     val position = adapterPosition
     if (position != RecyclerView.NO_POSITION) {
       viewHolderDelegate.onClick(v.id)
+      onListItemClick?.invoke(v, position, _model)
     }
   }
 
   companion object {
     internal fun <T : ListModel> create(
       parent: ViewGroup,
-      viewHolderDelegate: ViewHolderDelegate<T>
+      viewHolderDelegate: ViewHolderDelegate<T>,
+      onListItemClick: OnListItemClick?
     ): OnlyViewHolder<T> {
       val inflater = LayoutInflater.from(parent.context)
       val view = inflater.inflate(viewHolderDelegate.layout(), parent, false)
-      return OnlyViewHolder(view, viewHolderDelegate)
+      return OnlyViewHolder(view, viewHolderDelegate, onListItemClick)
     }
   }
 }
