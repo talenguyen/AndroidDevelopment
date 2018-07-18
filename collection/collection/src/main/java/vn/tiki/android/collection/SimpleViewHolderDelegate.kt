@@ -5,16 +5,21 @@ import android.view.View
 
 abstract class SimpleViewHolderDelegate<T : ListModel> : ViewHolderDelegate<T> {
 
-  protected lateinit var itemView: View
-  protected lateinit var model: T
+  val itemView: View
+    get() = _itemView
+  val model: T
+    get() = _model
+
+  private lateinit var _itemView: View
+  private lateinit var _model: T
   private val onClicks = mutableMapOf<Int, () -> Unit>()
 
   override fun bindView(view: View) {
-    itemView = view
+    _itemView = view
   }
 
   override fun bind(model: T) {
-    this.model = model
+    this._model = model
   }
 
   override fun unbind() {
