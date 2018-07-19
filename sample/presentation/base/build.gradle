@@ -11,12 +11,12 @@ dependencies {
 
   api deps.support.appcompat
   api deps.constraintLayout
-  api deps.internal.data
   api deps.internal.domain
   api deps.tiki.di
   api deps.tiki.androiddi
   api deps.arch.extensions
 
+  implementation deps.internal.data
   implementation deps.tiki.collection
   implementation deps.tiki.collectionx
 
