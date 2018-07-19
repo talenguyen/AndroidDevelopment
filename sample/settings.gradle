@@ -11,9 +11,13 @@ include ':presentation:base'
 include ':presentation:repositories'
 
 // Data layer
+include ':data'
 
 // Domain layer
 include ':domain'
 
 // Library modules
 include ':libraries:helper'
+include ':libraries:lifecycle'
+
+rootProject.name="Github Sample - Tiki Template"

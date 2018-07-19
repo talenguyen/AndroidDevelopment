@@ -55,11 +55,12 @@ deps.okhttp = [
     'loggingintercepter': "com.squareup.okhttp3:logging-interceptor:$okhttpVersion",
 ]
 
+
 def retrofitVersion = "2.4.0"
 deps.retrofit = [
-    'core'     : "com.squareup.retrofit2:retrofit:$retrofitVersion",
-    'converter': "com.squareup.retrofit2:converter-gson:$retrofitVersion",
-    'adapter'  : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+    'core'             : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+    'converter'        : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+    'coroutinesAdapter': "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0"
 ]
 
 deps.supportTest = [
@@ -74,7 +75,7 @@ deps.test = [
     'robolectric': "org.robolectric:robolectric:3.6.1",
 ]
 
-def lifecycleVersion = "1.1.1"
+ext.lifecycleVersion = "1.1.1"
 def navVersion = "1.0.0-alpha01"
 deps.arch = [
     'extensions': "android.arch.lifecycle:extensions:$lifecycleVersion",
@@ -87,10 +88,16 @@ deps.arch = [
 
 deps.internal = [
     'installed'   : project(':installed'),
+    // features
     'base'        : project(':presentation:base'),
     'repositories': project(':presentation:repositories'),
+    // domain
     'domain'      : project(':domain'),
+    // data
+    'data'        : project(':data'),
+    // libraries
     'helper'      : project(':libraries:helper'),
+    'lifecycle'   : project(':libraries:lifecycle'),
 ]
 
 ext.deps = deps

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.instantapp'
 
 dependencies {
-    implementation deps.internal.repositories
-    implementation deps.internal.base
+  implementation deps.internal.repositories
+  implementation deps.internal.base
 }

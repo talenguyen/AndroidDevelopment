@@ -1,4 +1,5 @@
 apply plugin: 'com.android.feature'
+apply plugin: 'kotlin-android'
 apply from: "$rootDir/gradle/android_common.gradle"
 
 android {
@@ -6,8 +7,18 @@ android {
 }
 
 dependencies {
+  implementation deps.kotlin.std
+
   api deps.support.appcompat
   api deps.constraintLayout
+  api deps.internal.data
+  api deps.internal.domain
+  api deps.tiki.di
+  api deps.tiki.androiddi
+  api deps.arch.extensions
+
+  implementation deps.tiki.collection
+  implementation deps.tiki.collectionx
 
   application deps.internal.installed
   feature deps.internal.repositories

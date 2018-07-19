@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="12dp">
+
+  <TextView
+      android:id="@+id/tvRepoName"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:ellipsize="end"
+      android:maxLines="1"
+      android:textAppearance="@style/TextAppearance.AppCompat.Title"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      tools:text="tikivn/AndroidDevelopment" />
+
+  <TextView
+      android:id="@+id/tvDescription"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tvRepoName"
+      tools:text="This is sample repository is created for reference purpose. In this repository we are implement Clean Architecture as the architecture of our application. Also we structure our project to adapt Instant App or later App Bundle" />
+
+  <TextView
+      android:id="@+id/tvStars"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="8dp"
+      android:drawableStart="@drawable/ic_star_border_16dp"
+      android:gravity="center_vertical"
+      android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+      tools:text="1234" />
+
+  <TextView
+      android:id="@+id/tvForks"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:drawableStart="@drawable/ic_fork_16dp"
+      android:gravity="center_vertical"
+      android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+      app:layout_constraintStart_toEndOf="@+id/tvStars"
+      app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+      tools:text="4567" />
+
+</android.support.constraint.ConstraintLayout>

@@ -19,6 +19,9 @@ allprojects {
   repositories {
     google()
     jcenter()
+    maven {
+      url "https://dl.bintray.com/talenguyen/maven"
+    }
   }
 
   // Force all of the primary support libraries to use the same version.
@@ -27,6 +30,8 @@ allprojects {
       eachDependency { details ->
         if (details.requested.group == 'com.android.support') {
           details.useVersion supportVersion
+        } else if (details.requested.group == 'android.arch.lifecycle') {
+          details.useVersion lifecycleVersion
         }
       }
 //      cacheChangingModulesFor 0, 'seconds'
