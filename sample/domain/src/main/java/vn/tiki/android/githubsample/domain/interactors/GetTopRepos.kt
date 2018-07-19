@@ -5,6 +5,7 @@ import vn.tiki.android.githubsample.domain.entities.Repo
 
 interface GetTopRepos {
   fun execute(
+    language: String,
     page: Int,
     onError: (String) -> Unit,
     onSuccess: (ListData<Repo>) -> Unit

@@ -9,10 +9,19 @@ androidExtensions {
 
 dependencies {
   implementation deps.internal.helper
+  implementation deps.internal.data
 
   implementation deps.kotlin.std
   implementation deps.tiki.di
+  implementation deps.coroutines.core
+  implementation deps.coroutines.android
 
   testImplementation deps.test.junit
   testImplementation deps.test.truth
+}
+
+kotlin {
+  experimental {
+    coroutines "enable"
+  }
 }
