@@ -11,15 +11,15 @@ Structure
 ---------
 Recommended by Google to be able to use the Instant App feature.
 
-`data` -> data layer
-`domain` -> domain layer
-`presentation` -> presentation layer
+ * `data` -> data layer
+ * `domain` -> domain layer
+ * `presentation` -> presentation layer
 
- * `base` -> base feature module
- * `repositories` -> implementation of repository listing feature
+   * `base` -> base feature module
+   * `repositories` -> implementation of repository listing feature
 
-`installed` -> application module.
-`instant` -> instant app module.
+ * `installed` -> application module.
+ * `instant` -> instant app module.
 
 Reference
 ---------
