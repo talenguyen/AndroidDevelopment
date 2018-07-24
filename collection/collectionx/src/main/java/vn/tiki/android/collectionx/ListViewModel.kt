@@ -24,11 +24,6 @@ abstract class ListViewModel<T> : ViewModel() {
     get() = _state
 
   fun loadFirstPage() {
-    if (_state.value != null) {
-      // Don't need to reload first page
-      return
-    }
-
     // Show load first loading
     _state.value = ListState(Loading)
 
