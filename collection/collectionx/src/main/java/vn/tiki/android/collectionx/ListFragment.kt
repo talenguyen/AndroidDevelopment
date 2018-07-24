@@ -26,6 +26,8 @@ abstract class ListFragment<T> : Fragment() {
 
   private var listFragmentDelegate: ListFragmentDelegate? = null
 
+  private var swipeRefreshLayout: SwipeRefreshLayout? = null
+
   /**
    * Create [ListViewModel] class
    */
@@ -147,6 +149,15 @@ abstract class ListFragment<T> : Fragment() {
         swipeRefreshLayout?.isRefreshing = (swipeRefreshLayout?.isRefreshing ?: false) && it.status == Status.Loading
       }
     })
+  }
+
+  /**
+   * Enable/Disable SwipeRefresh
+   *
+   * @param isEnabled <code>true</code> for enable or disable otherwise.
+   */
+  fun setRefreshEnabled(isEnabled: Boolean) {
+    swipeRefreshLayout?.isEnabled = isEnabled
   }
 
   private fun showLoadingIndicator(isShown: Boolean) {

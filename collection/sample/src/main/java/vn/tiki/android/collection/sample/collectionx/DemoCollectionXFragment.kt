@@ -1,6 +1,7 @@
 package vn.tiki.android.collection.sample.collectionx
 
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import vn.tiki.android.collection.ListModel
@@ -21,5 +22,10 @@ class DemoCollectionXFragment : ListFragment<String>() {
     return items.map {
       UserModel(name = it).apply { onClick = { println("$it is clicked") } }
     }
+  }
+
+  override fun onActivityCreated(savedInstanceState: Bundle?) {
+    super.onActivityCreated(savedInstanceState)
+    setRefreshEnabled(false)
   }
 }
