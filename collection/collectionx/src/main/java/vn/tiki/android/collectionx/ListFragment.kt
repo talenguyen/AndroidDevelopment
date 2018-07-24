@@ -87,7 +87,7 @@ abstract class ListFragment<T> : Fragment() {
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
 
-    val swipeRefreshLayout = view?.findViewById<SwipeRefreshLayout>(R.id.refreshLayout)
+    swipeRefreshLayout = view?.findViewById(R.id.refreshLayout)
     swipeRefreshLayout?.setOnRefreshListener { viewModel.refresh() }
 
     val adapter = OnlyAdapter()
@@ -142,7 +142,13 @@ abstract class ListFragment<T> : Fragment() {
 
         // Scroll to top when first page is successfully loaded.
         if (it.status == Success && it.currentPage == 1) {
-          recyclerView?.post { recyclerView.scrollToPosition(0) }
+          recyclerView?.isNestedScrollingEnabled = false
+          println("recyclerView?.isEnabled: ${recyclerView?.isEnabled}")
+          recyclerView?.postDelayed({
+            recyclerView.scrollToPosition(0)
+            recyclerView.isNestedScrollingEnabled = true
+            println("recyclerView?.isEnabled: ${recyclerView.isEnabled}")
+          }, 2000)
         }
 
         // Enable refreshing
