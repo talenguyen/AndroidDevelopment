@@ -8,8 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_demo.*
 import vn.tiki.android.collection.OnlyAdapter
 import vn.tiki.android.collection.sample.ExampleApplication
-import vn.tiki.android.collection.sample.R.layout
+import vn.tiki.android.collection.sample.R
 import vn.tiki.android.collection.sample.viewholder.ButtonModel
+import vn.tiki.android.collection.sample.viewholder.CheckBoxModel
 import vn.tiki.android.collection.sample.viewholder.TextModel
 import vn.tiki.android.collection.sample.viewholder.UserModel
 
@@ -22,7 +23,7 @@ class DemoActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    setContentView(layout.activity_demo)
+    setContentView(R.layout.activity_demo)
     recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     adapter = OnlyAdapter()
     recyclerView.adapter = adapter
@@ -45,6 +46,15 @@ class DemoActivity : AppCompatActivity() {
               onClick = {
                 val userModel: UserModel = makeUser(++count)
                 viewModel.add(userModel)
+              }),
+
+            ButtonModel(
+              text = "Add CheckBox",
+              onClick = {
+                val checkBoxModel: CheckBoxModel = makeCheckBox(++count) { model ->
+                  viewModel.update(model)
+                }
+                viewModel.add(checkBoxModel)
               }),
 
             ButtonModel(
@@ -78,6 +88,11 @@ class DemoActivity : AppCompatActivity() {
 
   private fun makeText(id: Int): TextModel {
     return TextModel("Text $id")
+  }
+
+  private fun makeCheckBox(id: Int, onClick: (CheckBoxModel) -> Unit): CheckBoxModel {
+    return CheckBoxModel(id, false, "Check Box $id")
+      .apply { this.onClick = onClick }
   }
 
   override fun onDestroy() {

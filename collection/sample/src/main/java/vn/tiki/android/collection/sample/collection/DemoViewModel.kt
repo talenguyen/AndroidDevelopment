@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import vn.tiki.android.collection.ListModel
+import vn.tiki.android.collection.sample.viewholder.CheckBoxModel
 
 class DemoViewModel : ViewModel() {
 
@@ -43,4 +44,13 @@ class DemoViewModel : ViewModel() {
   }
 
   private fun getValue(): List<ListModel> = _list.value!!
+  fun update(model: CheckBoxModel) {
+    setValue(getValue().map { oldModel ->
+      if (oldModel == model) {
+        model.copy(isChecked = !model.isChecked).also { it.onClick = model.onClick }
+      } else {
+        oldModel
+      }
+    })
+  }
 }
