@@ -142,19 +142,17 @@ abstract class ListFragment<T> : Fragment() {
 
         // Scroll to top when first page is successfully loaded.
         if (it.status == Success && it.currentPage == 1) {
-          recyclerView?.isNestedScrollingEnabled = false
-          println("recyclerView?.isEnabled: ${recyclerView?.isEnabled}")
-          recyclerView?.postDelayed({
+          recyclerView?.post {
             recyclerView.scrollToPosition(0)
-            recyclerView.isNestedScrollingEnabled = true
-            println("recyclerView?.isEnabled: ${recyclerView.isEnabled}")
-          }, 2000)
+          }
         }
 
         // Enable refreshing
         swipeRefreshLayout?.isRefreshing = (swipeRefreshLayout?.isRefreshing ?: false) && it.status == Status.Loading
       }
     })
+
+    viewModel.loadFirstPage()
   }
 
   /**

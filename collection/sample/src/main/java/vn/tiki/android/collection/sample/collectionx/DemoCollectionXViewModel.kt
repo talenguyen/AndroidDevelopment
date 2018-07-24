@@ -4,8 +4,9 @@ import android.os.Handler
 import vn.tiki.android.collectionx.ListData
 import vn.tiki.android.collectionx.ListViewModel
 
-class DemoCollectionXViewModel: ListViewModel<String>(
-  { page, onError, onSuccess ->
+class DemoCollectionXViewModel : ListViewModel<String>() {
+
+  override val load: (Int, (String) -> Unit, (ListData<String>) -> Unit) -> Unit = { page, onError, onSuccess ->
     Handler().postDelayed(
       {
         when (page) {
@@ -24,8 +25,9 @@ class DemoCollectionXViewModel: ListViewModel<String>(
         }
       },
       500)
-  },
-  { onError, onSuccess ->
+  }
+
+  override val refresh: ((String) -> Unit, (ListData<String>) -> Unit) -> Unit = { onError, onSuccess ->
     Handler().postDelayed(
       {
         if (System.currentTimeMillis() % 2 == 0L) {
@@ -37,13 +39,13 @@ class DemoCollectionXViewModel: ListViewModel<String>(
       500
     )
   }
-)
+}
 
 private fun error() = "server error"
 
 private fun firstPage(): ListData<String> {
 
-  return object: ListData<String> {
+  return object : ListData<String> {
     override fun data(): List<String> = (1..20).map { "Item $it" }
 
     override fun lastPage(): Int = 2
@@ -52,7 +54,7 @@ private fun firstPage(): ListData<String> {
 
 private fun secondPage(): ListData<String> {
 
-  return object: ListData<String> {
+  return object : ListData<String> {
     override fun data(): List<String> = (21..40).map { "Item $it" }
 
     override fun lastPage(): Int = 2

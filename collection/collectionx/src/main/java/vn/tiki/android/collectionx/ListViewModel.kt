@@ -3,31 +3,37 @@ package vn.tiki.android.collectionx
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import vn.tiki.android.collection.ListModel
 import vn.tiki.android.collectionx.Status.Error
 import vn.tiki.android.collectionx.Status.Loading
 import vn.tiki.android.collectionx.Status.Success
 
-open class ListViewModel<T>(
-  private val loadFunc: (Int, (String) -> Unit, (ListData<T>) -> Unit) -> Unit,
-  private val refreshFunc: ((String) -> Unit, (ListData<T>) -> Unit) -> Unit
-) : ViewModel() {
+abstract class ListViewModel<T> : ViewModel() {
 
-  private val _list = MutableLiveData<List<ListModel>>()
+  /**
+   * Sub-class must implement load to load data by page.
+   */
+  protected abstract val load: (Int, (String) -> Unit, (ListData<T>) -> Unit) -> Unit
+
+  /**
+   * Sub-class must implement refresh to refresh data.
+   */
+  protected abstract val refresh: ((String) -> Unit, (ListData<T>) -> Unit) -> Unit
+
   private val _state = MutableLiveData<ListState<T>>()
   val state: LiveData<ListState<T>>
     get() = _state
 
-  init {
-    loadFirstPage()
-  }
-
   fun loadFirstPage() {
+    if (_state.value != null) {
+      // Don't need to reload first page
+      return
+    }
+
     // Show load first loading
     _state.value = ListState(Loading)
 
     // Load first page
-    loadFunc(
+    load(
       1,
       { error ->
         _state.value = ListState(Error, error = error)
@@ -70,7 +76,7 @@ open class ListViewModel<T>(
 
     // Load next page
     val page = state.currentPage + 1
-    loadFunc(
+    load(
       page,
       { error ->
         _state.value = state.copy(
@@ -108,7 +114,7 @@ open class ListViewModel<T>(
       refreshError = null
     )
 
-    refreshFunc(
+    refresh(
       { error ->
         _state.value = state.copy(
           status = Error,
