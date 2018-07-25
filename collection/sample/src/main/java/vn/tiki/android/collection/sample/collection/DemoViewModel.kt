@@ -3,8 +3,11 @@ package vn.tiki.android.collection.sample.collection
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.text.TextUtils
+import android.util.Patterns
 import vn.tiki.android.collection.ListModel
 import vn.tiki.android.collection.sample.viewholder.CheckBoxModel
+import vn.tiki.android.collection.sample.viewholder.TextFieldModel
 
 class DemoViewModel : ViewModel() {
 
@@ -43,7 +46,7 @@ class DemoViewModel : ViewModel() {
     })
   }
 
-  private fun getValue(): List<ListModel> = _list.value!!
+  fun getValue(): List<ListModel> = _list.value!!
   fun update(model: CheckBoxModel) {
     setValue(getValue().map { oldModel ->
       if (oldModel == model) {
@@ -52,5 +55,24 @@ class DemoViewModel : ViewModel() {
         oldModel
       }
     })
+  }
+
+  fun setUserName(username: String) {
+    setValue(getValue().map { model ->
+      if (model is TextFieldModel) {
+        val error = if (isValidEmail(username)) {
+          ""
+        } else {
+          "Invalid email address"
+        }
+        model.copy(error = error).also { it.onUsernameChanged = model.onUsernameChanged }
+      } else {
+        model
+      }
+    })
+  }
+
+  private fun isValidEmail(target: CharSequence): Boolean {
+    return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
   }
 }

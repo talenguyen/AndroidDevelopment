@@ -18,6 +18,7 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
   implementation deps.kotlin.std
 
+  implementation deps.support.design
   implementation deps.support.appcompat
   implementation deps.support.recyclerview
   implementation deps.constraintLayout

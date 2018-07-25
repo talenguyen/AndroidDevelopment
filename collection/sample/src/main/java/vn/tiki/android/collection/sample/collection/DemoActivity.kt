@@ -11,6 +11,7 @@ import vn.tiki.android.collection.sample.ExampleApplication
 import vn.tiki.android.collection.sample.R
 import vn.tiki.android.collection.sample.viewholder.ButtonModel
 import vn.tiki.android.collection.sample.viewholder.CheckBoxModel
+import vn.tiki.android.collection.sample.viewholder.TextFieldModel
 import vn.tiki.android.collection.sample.viewholder.TextModel
 import vn.tiki.android.collection.sample.viewholder.UserModel
 
@@ -58,6 +59,15 @@ class DemoActivity : AppCompatActivity() {
               }),
 
             ButtonModel(
+              text = "Add TextField",
+              onClick = {
+                val textField: TextFieldModel = makeTextField("username") { text ->
+                  viewModel.setUserName(text)
+                }
+                viewModel.add(textField)
+              }),
+
+            ButtonModel(
               text = "Remove",
               onClick = {
                 viewModel.remove(1)
@@ -93,6 +103,11 @@ class DemoActivity : AppCompatActivity() {
   private fun makeCheckBox(id: Int, onClick: (CheckBoxModel) -> Unit): CheckBoxModel {
     return CheckBoxModel(id, false, "Check Box $id")
       .apply { this.onClick = onClick }
+  }
+
+  private fun makeTextField(id: String, onUsernameChanged: (String) -> Unit): TextFieldModel {
+    return TextFieldModel(id, "")
+      .apply { this.onUsernameChanged = onUsernameChanged }
   }
 
   override fun onDestroy() {
