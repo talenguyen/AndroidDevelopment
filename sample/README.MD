@@ -9,6 +9,9 @@ We use Clean Architecture, inspired by the article https://github.com/android10/
 
 Structure
 ---------
+
+![](./modularization.png)
+
 Recommended by Google to be able to use the Instant App feature.
 
  * `data` -> data layer
