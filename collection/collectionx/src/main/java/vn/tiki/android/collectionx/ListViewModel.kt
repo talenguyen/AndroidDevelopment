@@ -23,23 +23,28 @@ abstract class ListViewModel<T> : ViewModel() {
   val state: LiveData<ListState<T>>
     get() = _state
 
+  @Suppress("MemberVisibilityCanBePrivate")
+  protected fun setState(nextState: ListState<T>) {
+    _state.value = nextState
+  }
+
   fun loadFirstPage() {
     // Show load first loading
-    _state.value = ListState(Loading)
+    setState(ListState(Loading))
 
     // Load first page
     load(
       1,
       { error ->
-        _state.value = ListState(Error, error = error)
+        setState(ListState(Error, error = error))
       },
       { listData ->
-        _state.value = ListState(
+        setState(ListState(
           Success,
           data = listData.data(),
           currentPage = 1,
           lastPage = listData.lastPage()
-        )
+        ))
       }
     )
   }
@@ -63,29 +68,29 @@ abstract class ListViewModel<T> : ViewModel() {
     }
 
     // Show load more loading
-    _state.value = state.copy(
+    setState(state.copy(
       status = Loading,
       error = null,
       refreshError = null
-    )
+    ))
 
     // Load next page
     val page = state.currentPage + 1
     load(
       page,
       { error ->
-        _state.value = state.copy(
+        setState(state.copy(
           status = Error,
           error = error
-        )
+        ))
       },
       { listData ->
-        _state.value = ListState(
+        setState(ListState(
           Success,
           data = data + listData.data(),
           currentPage = page,
           lastPage = listData.lastPage()
-        )
+        ))
       }
     )
   }
@@ -103,26 +108,26 @@ abstract class ListViewModel<T> : ViewModel() {
     }
 
     // Show load more loading
-    _state.value = state.copy(
+    setState(state.copy(
       status = Loading,
-      error =  null,
+      error = null,
       refreshError = null
-    )
+    ))
 
     refresh(
       { error ->
-        _state.value = state.copy(
+        setState(state.copy(
           status = Error,
           refreshError = error
-        )
+        ))
       },
       { listData ->
-        _state.value = ListState(
+        setState(ListState(
           Success,
           data = listData.data(),
           currentPage = 1,
           lastPage = listData.lastPage()
-        )
+        ))
       }
     )
   }
