@@ -20,8 +20,6 @@ import android.support.v7.recyclerview.extensions.AsyncDifferConfig
 import android.support.v7.recyclerview.extensions.AsyncListDiffer
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.view.View.OnAttachStateChangeListener
 
 /**
  * [RecyclerView.Adapter] base class for presenting List data in a
@@ -103,15 +101,6 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> protected constructo
   private val asyncListDiffer: AsyncListDiffer<T>
 
   private val listUpdateCallback: AdapterListUpdateCallback = AdapterListUpdateCallback()
-  private val releaseAdapterListener = object : OnAttachStateChangeListener {
-    override fun onViewDetachedFromWindow(v: View?) {
-      (v as RecyclerView).adapter = null
-    }
-
-    override fun onViewAttachedToWindow(view: View?) {
-      // ignored
-    }
-  }
 
   init {
     asyncListDiffer = AsyncListDiffer(
@@ -125,13 +114,11 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> protected constructo
 
   override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
     super.onAttachedToRecyclerView(recyclerView)
-    recyclerView.addOnAttachStateChangeListener(releaseAdapterListener)
     listUpdateCallback.adapter = this
   }
 
   override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
     super.onDetachedFromRecyclerView(recyclerView)
-    recyclerView.removeOnAttachStateChangeListener(releaseAdapterListener)
     listUpdateCallback.adapter = null
     asyncListDiffer.submitList(null)
   }
