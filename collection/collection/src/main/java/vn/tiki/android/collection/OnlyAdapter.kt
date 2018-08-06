@@ -17,8 +17,9 @@ private val DEFAULT_DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListModel>() 
 
 class OnlyAdapter(
   diffCallback: ItemCallback<ListModel> = DEFAULT_DIFF_CALLBACK,
-  private val onListItemClick: OnListItemClick? = null
-) : ListAdapter<ListModel, OnlyViewHolder<ListModel>>(diffCallback) {
+  private val onListItemClick: OnListItemClick? = null,
+  isAutoReleaseAdapterOnDetach: Boolean = true
+) : ListAdapter<ListModel, OnlyViewHolder<ListModel>>(diffCallback, isAutoReleaseAdapterOnDetach) {
 
   private val viewTypeManager = ViewTypeManager()
   private val viewHolderDelegateFactoryMap = ArrayMap<Int, () -> ViewHolderDelegate<ListModel>>()

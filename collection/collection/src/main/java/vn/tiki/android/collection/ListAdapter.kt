@@ -20,6 +20,8 @@ import android.support.v7.recyclerview.extensions.AsyncDifferConfig
 import android.support.v7.recyclerview.extensions.AsyncListDiffer
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.View.OnAttachStateChangeListener
 
 /**
  * [RecyclerView.Adapter] base class for presenting List data in a
@@ -95,12 +97,24 @@ import android.support.v7.widget.RecyclerView
  * @param <VH> A class that extends ViewHolder that will be used by the adapter.
 </VH></T> */
 abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> protected constructor(
-  diffCallback: DiffUtil.ItemCallback<T>
+  diffCallback: DiffUtil.ItemCallback<T>,
+  isAutoReleaseAdapterOnDetach: Boolean = true
 ) : RecyclerView.Adapter<VH>() {
 
   private val asyncListDiffer: AsyncListDiffer<T>
-
   private val listUpdateCallback: AdapterListUpdateCallback = AdapterListUpdateCallback()
+  private val releaseAdapterListener: OnAttachStateChangeListener? = when {
+    isAutoReleaseAdapterOnDetach -> object : OnAttachStateChangeListener {
+      override fun onViewDetachedFromWindow(v: View?) {
+        (v as RecyclerView).adapter = null
+      }
+
+      override fun onViewAttachedToWindow(view: View?) {
+        // ignored
+      }
+    }
+    else -> null
+  }
 
   init {
     asyncListDiffer = AsyncListDiffer(
@@ -114,11 +128,17 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> protected constructo
 
   override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
     super.onAttachedToRecyclerView(recyclerView)
+    releaseAdapterListener?.run {
+      recyclerView.addOnAttachStateChangeListener(this)
+    }
     listUpdateCallback.adapter = this
   }
 
   override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
     super.onDetachedFromRecyclerView(recyclerView)
+    releaseAdapterListener?.run {
+      recyclerView.removeOnAttachStateChangeListener(this)
+    }
     listUpdateCallback.adapter = null
     asyncListDiffer.submitList(null)
   }
