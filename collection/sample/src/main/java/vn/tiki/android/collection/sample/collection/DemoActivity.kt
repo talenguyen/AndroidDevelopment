@@ -11,6 +11,7 @@ import vn.tiki.android.collection.sample.ExampleApplication
 import vn.tiki.android.collection.sample.R
 import vn.tiki.android.collection.sample.viewholder.ButtonModel
 import vn.tiki.android.collection.sample.viewholder.CheckBoxModel
+import vn.tiki.android.collection.sample.viewholder.CollectionModel
 import vn.tiki.android.collection.sample.viewholder.TextFieldModel
 import vn.tiki.android.collection.sample.viewholder.TextModel
 import vn.tiki.android.collection.sample.viewholder.UserModel
@@ -65,6 +66,12 @@ class DemoActivity : AppCompatActivity() {
                   viewModel.setUserName(text)
                 }
                 viewModel.add(textField)
+              }),
+
+            ButtonModel(
+              text = "Add collection",
+              onClick = {
+                viewModel.add(CollectionModel)
               }),
 
             ButtonModel(
