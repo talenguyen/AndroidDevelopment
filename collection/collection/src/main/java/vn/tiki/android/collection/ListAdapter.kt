@@ -146,7 +146,6 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> protected constructo
   /**
    * Submits a new list to be diffed, and displayed.
    *
-   *
    * If a list is already being displayed, a diff will be computed on a background thread, which
    * will dispatch Adapter.notifyItem events on the main thread.
    *
@@ -156,7 +155,13 @@ abstract class ListAdapter<T, VH : RecyclerView.ViewHolder> protected constructo
     asyncListDiffer.submitList(list)
   }
 
-  protected fun getItem(position: Int): T {
+  /**
+   * Get item at position
+   *
+   * @param position
+   * @return item at the given position
+   */
+  fun getItem(position: Int): T {
     return asyncListDiffer.currentList[position]
   }
 }
