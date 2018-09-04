@@ -64,7 +64,7 @@ if __name__ == '__main__':
     print("2. `git commit -am \"Prepare for release X.Y.Z.\"` (where X.Y.Z is the new version)")
     module_name = os.path.basename(os.getcwd()) if len(sys.argv) == 1 else len(sys.argv[1])
     version = get_version()
-    tag = module_name + "-" + version
+    tag = module_name + "-" + str(version)
     message = "Prepare for release " + tag
     command = "git commit -am \"" + message + "\""
     run(command)
