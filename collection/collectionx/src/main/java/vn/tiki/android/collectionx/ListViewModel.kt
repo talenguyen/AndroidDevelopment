@@ -7,17 +7,26 @@ import vn.tiki.android.collectionx.Status.Error
 import vn.tiki.android.collectionx.Status.Loading
 import vn.tiki.android.collectionx.Status.Success
 
+typealias OnSuccess<T> = (data: T, lastPate: Int) -> Unit
+typealias OnError = (message: String) -> Unit
+
 abstract class ListViewModel<T> : ViewModel() {
 
   /**
    * Sub-class must implement load to load data by page.
    */
-  protected abstract val load: (Int, (String) -> Unit, (ListData<T>) -> Unit) -> Unit
+  protected abstract val load: (page: Int, onError: OnError, onSuccess: OnSuccess<T>) -> Unit
 
   /**
    * Sub-class must implement refresh to refresh data.
    */
-  protected abstract val refresh: ((String) -> Unit, (ListData<T>) -> Unit) -> Unit
+  protected abstract val refresh: (onError: OnError, onSuccess: OnSuccess<T>) -> Unit
+
+  /**
+   * Sub-class must implement reducer to produce next state when load more success. e.g. to add new list to the current
+   * list
+   */
+  protected abstract val reducer: (state: T, nextState: T) -> T
 
   private val _state = MutableLiveData<ListState<T>>()
   val state: LiveData<ListState<T>>
@@ -38,12 +47,12 @@ abstract class ListViewModel<T> : ViewModel() {
       { error ->
         setState(ListState(Error, error = error))
       },
-      { listData ->
+      { data, lastPage ->
         setState(ListState(
           Success,
-          data = listData.data(),
+          data = data,
           currentPage = 1,
-          lastPage = listData.lastPage()
+          lastPage = lastPage
         ))
       }
     )
@@ -84,12 +93,12 @@ abstract class ListViewModel<T> : ViewModel() {
           error = error
         ))
       },
-      { listData ->
+      { newData, lastPage ->
         setState(ListState(
           Success,
-          data = data + listData.data(),
+          data = reducer(data, newData),
           currentPage = page,
-          lastPage = listData.lastPage()
+          lastPage = lastPage
         ))
       }
     )
@@ -121,12 +130,12 @@ abstract class ListViewModel<T> : ViewModel() {
           refreshError = error
         ))
       },
-      { listData ->
+      { newData, lastPage ->
         setState(ListState(
           Success,
-          data = listData.data(),
+          data = newData,
           currentPage = 1,
-          lastPage = listData.lastPage()
+          lastPage = lastPage
         ))
       }
     )

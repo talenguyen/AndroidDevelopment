@@ -17,6 +17,9 @@ import vn.tiki.android.collectionx.viewholder.Error
 import vn.tiki.android.collectionx.viewholder.Loading
 import vn.tiki.android.collectionx.viewholder.None
 import vn.tiki.android.collectionx.viewholder.Retry
+import vn.tiki.android.collectionx.viewholder.errorItem
+import vn.tiki.android.collectionx.viewholder.loadingItem
+import vn.tiki.android.collectionx.viewholder.retryItem
 
 abstract class ListFragment<T> : Fragment() {
 
@@ -41,10 +44,9 @@ abstract class ListFragment<T> : Fragment() {
 
   /**
    * Map given data to [ListModel] to be displayed in the [RecyclerView]
-   * @param items
-   * @return [List] of [ListModel] that will be rendered in the [RecyclerView]
+   * @param data
    */
-  protected abstract fun renderItems(items: List<T>): List<ListModel>
+  protected abstract fun MutableList<ListModel>.render(data: T)
 
   /**
    * You can override this to return your desired layout for [Retry] view. Note: Your layout must declare @id/itemView
@@ -105,13 +107,17 @@ abstract class ListFragment<T> : Fragment() {
         showLoadingIndicator(it.status == Status.Loading)
 
         val renderModels: List<ListModel> = if (it.data == null) {
-          when (it.status) {
-            Status.Loading -> listOf(renderLoading())
-            Status.Error -> listOf(Error(
-              layoutId = getErrorLayout(),
-              text = it.error ?: "unknown error",
-              onClick = { viewModel.loadFirstPage() }))
-            else -> throw IllegalArgumentException("unknown state")
+          mutableListOf<ListModel>().apply {
+            when (it.status) {
+              Status.Loading -> loadingItem(getLoadingLayout())
+              Status.Error -> errorItem(
+                layoutId = getErrorLayout(),
+                text = it.error ?: "unknown error"
+              ) {
+                onClick = { viewModel.loadFirstPage() }
+              }
+              else -> throw IllegalArgumentException("unknown state")
+            }
           }
         } else {
           mutableListOf<ListModel>().apply {
@@ -120,20 +126,27 @@ abstract class ListFragment<T> : Fragment() {
 
             // Show refresh error at the top
             if (it.refreshError != null) {
-              add(renderRetry { viewModel.refresh() })
+              retryItem(getRetryLayout()) {
+                onClick = {
+                  swipeRefreshLayout?.isRefreshing = true
+                  viewModel.refresh()
+                }
+              }
             }
 
             // Show list data at the middle
-            addAll(renderItems(it.data))
+            render(it.data)
 
             // Show load more indicator if current is not the last page
             if (it.status != Status.Error && it.isLastPage().not()) {
-              add(renderLoading())
+              loadingItem(getLoadingLayout())
             }
 
             // Show load more error at the bottom
             if (it.error != null) {
-              add(renderRetry { viewModel.loadNextPage(true) })
+              retryItem(getRetryLayout()) {
+                onClick = { viewModel.loadNextPage(true) }
+              }
             }
           }
         }
@@ -167,8 +180,4 @@ abstract class ListFragment<T> : Fragment() {
   private fun showLoadingIndicator(isShown: Boolean) {
     listFragmentDelegate?.showActivityIndicator(isShown)
   }
-
-  private fun renderRetry(onClick: () -> Unit) = Retry(getRetryLayout(), onClick)
-
-  private fun renderLoading() = Loading(getLoadingLayout())
 }
