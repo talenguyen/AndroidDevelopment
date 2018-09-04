@@ -23,6 +23,10 @@ data class UserModel(val name: String) : ListModel {
   }
 }
 
+inline fun MutableList<ListModel>.userItem(name: String, initializer: UserModel.() -> Unit) {
+  add(UserModel(name).apply(initializer))
+}
+
 class UserViewHolderDelegate : SimpleViewHolderDelegate<UserModel>() {
 
   private lateinit var nameTextView: TextView
