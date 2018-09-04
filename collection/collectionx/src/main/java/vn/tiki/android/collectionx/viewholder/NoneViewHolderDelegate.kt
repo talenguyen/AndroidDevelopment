@@ -7,9 +7,9 @@ import vn.tiki.android.collectionx.R
 
 object None : ListModel {
 
-  override fun getKey(): String {
-    return "vn.tiki.android.collectionx.viewholder.None"
-  }
+  private val key = None::class.java.canonicalName
+
+  override fun getKey(): String = key
 
   @Suppress("UNCHECKED_CAST")
   override fun <T : ListModel> getViewHolderDelegateFactory(): () -> ViewHolderDelegate<T> {

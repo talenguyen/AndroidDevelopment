@@ -7,16 +7,22 @@ import vn.tiki.android.collection.SimpleViewHolderDelegate
 import vn.tiki.android.collection.ViewHolderDelegate
 import vn.tiki.android.collectionx.R
 
-data class Error(val layoutId: Int, val text: String, val onClick: () -> Unit) : ListModel {
+data class Error(val layoutId: Int, val text: String) : ListModel {
 
-  override fun getKey(): String {
-    return "vn.tiki.android.collectionx.viewholder.Error:$text"
-  }
+  var onClick: (() -> Unit)? = null
+
+  private val key = "${Error::class.java.canonicalName}.$layoutId.$text"
+
+  override fun getKey() = key
 
   @Suppress("UNCHECKED_CAST")
   override fun <T : ListModel> getViewHolderDelegateFactory(): () -> ViewHolderDelegate<T> {
     return { ErrorViewHolderDelegate(layoutId) as ViewHolderDelegate<T> }
   }
+}
+
+inline fun MutableList<ListModel>.errorItem(layoutId: Int, text: String, initializer: Error.() -> Unit) {
+  add(Error(layoutId, text).apply(initializer))
 }
 
 class ErrorViewHolderDelegate(private val layoutId: Int) : SimpleViewHolderDelegate<Error>() {
@@ -26,7 +32,7 @@ class ErrorViewHolderDelegate(private val layoutId: Int) : SimpleViewHolderDeleg
   override fun bindView(view: View) {
     super.bindView(view)
     errorMessageTextView = view.findViewById(R.id.errorMessageTextView)
-    onClick(R.id.itemView) { model.onClick() }
+    onClick(R.id.itemView) { model.onClick?.invoke() }
   }
 
   override fun layout(): Int = layoutId
