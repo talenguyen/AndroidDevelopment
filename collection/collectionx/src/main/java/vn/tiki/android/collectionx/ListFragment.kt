@@ -102,7 +102,7 @@ abstract class ListFragment<T> : Fragment() {
       this.adapter = adapter
     }
 
-    viewModel.state.observe(this, Observer {
+    viewModel.listState.observe(this, Observer {
       it?.let {
         showLoadingIndicator(it.status == Status.Loading)
 
@@ -116,7 +116,7 @@ abstract class ListFragment<T> : Fragment() {
               ) {
                 onClick = { viewModel.loadFirstPage() }
               }
-              else -> throw IllegalArgumentException("unknown state")
+              else -> throw IllegalArgumentException("unknown listState")
             }
           }
         } else {

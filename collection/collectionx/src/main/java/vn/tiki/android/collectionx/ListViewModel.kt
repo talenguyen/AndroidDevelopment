@@ -2,6 +2,7 @@ package vn.tiki.android.collectionx
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
 import vn.tiki.android.collectionx.Status.Error
 import vn.tiki.android.collectionx.Status.Loading
@@ -23,18 +24,22 @@ abstract class ListViewModel<T> : ViewModel() {
   protected abstract val refresh: (onError: OnError, onSuccess: OnSuccess<T>) -> Unit
 
   /**
-   * Sub-class must implement reducer to produce next state when load more success. e.g. to add new list to the current
+   * Sub-class must implement reducer to produce next listState when load more success. e.g. to add new list to the current
    * list
    */
   protected abstract val reducer: (state: T, nextState: T) -> T
 
-  private val _state = MutableLiveData<ListState<T>>()
-  val state: LiveData<ListState<T>>
-    get() = _state
+  private val _listState = MutableLiveData<ListState<T>>()
+
+  val listState: LiveData<ListState<T>>
+    get() = _listState
+
+  val state: LiveData<T>
+    get() = Transformations.map(_listState) { it.data }
 
   @Suppress("MemberVisibilityCanBePrivate")
   protected fun setState(nextState: ListState<T>) {
-    _state.value = nextState
+    _listState.value = nextState
   }
 
   fun loadFirstPage() {
@@ -60,7 +65,7 @@ abstract class ListViewModel<T> : ViewModel() {
 
   @Suppress("UNCHECKED_CAST")
   fun loadNextPage(force: Boolean = false) {
-    val state = _state.value ?: return
+    val state = _listState.value ?: return
 
     if (state.status == Loading) {
       return // don't auto load more when loading
@@ -106,7 +111,7 @@ abstract class ListViewModel<T> : ViewModel() {
 
   @Suppress("UNCHECKED_CAST")
   fun refresh() {
-    val state = _state.value ?: return
+    val state = _listState.value ?: return
 
     if (state.status == Loading) {
       return // don't refresh when loading
