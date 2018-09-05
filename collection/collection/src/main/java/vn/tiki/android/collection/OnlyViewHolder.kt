@@ -12,7 +12,7 @@ class OnlyViewHolder<T : ListModel> private constructor(
   private val onListItemClick: OnListItemClick?
 ) : RecyclerView.ViewHolder(itemView), OnClickListener {
 
-  private lateinit var _model: T
+  private var _model: T? = null
 
   init {
     viewHolderDelegate.bindView(itemView)
@@ -23,6 +23,9 @@ class OnlyViewHolder<T : ListModel> private constructor(
   }
 
   internal fun bind(model: T) {
+    if (_model == model) {
+      return
+    }
     _model = model
     viewHolderDelegate.bind(model)
   }
@@ -35,7 +38,7 @@ class OnlyViewHolder<T : ListModel> private constructor(
     val position = adapterPosition
     if (position != RecyclerView.NO_POSITION) {
       viewHolderDelegate.onClick(v.id)
-      onListItemClick?.invoke(v, position, _model)
+      onListItemClick?.invoke(v, position, _model!!)
     }
   }
 
