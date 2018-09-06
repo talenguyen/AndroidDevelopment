@@ -33,3 +33,5 @@ object TikiDi {
     return objectGraph[T::class.java]
   }
 }
+
+fun module(block: Module.() -> Unit) = Module().apply(block)
