@@ -27,6 +27,7 @@ dependencies {
   implementation deps.support.recyclerview
   implementation deps.constraintLayout
   implementation deps.arch.extensions
+  implementation 'com.airbnb.android:mvrx:0.5.0'
 
   testImplementation deps.test.junit
   testImplementation deps.test.truth
