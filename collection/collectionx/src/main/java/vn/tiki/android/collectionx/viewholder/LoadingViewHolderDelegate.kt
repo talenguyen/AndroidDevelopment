@@ -6,11 +6,9 @@ import vn.tiki.android.collection.ListModel
 import vn.tiki.android.collection.SimpleViewHolderDelegate
 import vn.tiki.android.collection.ViewHolderDelegate
 
-data class Loading(private val layoutId: Int) : ListModel {
+data class LoadingModel(private val layoutId: Int) : ListModel {
 
-  var onClick: (() -> Unit)? = null
-
-  private val key = "${Loading::class.java.canonicalName}.$layoutId"
+  private val key = "${LoadingModel::class.java.canonicalName}.$layoutId"
 
   override fun getKey() = key
 
@@ -21,9 +19,9 @@ data class Loading(private val layoutId: Int) : ListModel {
 }
 
 inline fun MutableList<ListModel>.loadingItem(layoutId: Int) {
-  add(Loading(layoutId))
+  add(LoadingModel(layoutId))
 }
 
-class LoadingViewHolderDelegate(private val layoutId: Int) : SimpleViewHolderDelegate<Loading>() {
+class LoadingViewHolderDelegate(private val layoutId: Int) : SimpleViewHolderDelegate<LoadingModel>() {
   override fun layout(): Int = layoutId
 }

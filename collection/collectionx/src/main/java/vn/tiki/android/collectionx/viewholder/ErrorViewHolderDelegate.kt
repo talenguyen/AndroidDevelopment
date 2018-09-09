@@ -7,11 +7,11 @@ import vn.tiki.android.collection.SimpleViewHolderDelegate
 import vn.tiki.android.collection.ViewHolderDelegate
 import vn.tiki.android.collectionx.R
 
-data class Error(val layoutId: Int, val text: String) : ListModel {
+data class ErrorModel(val layoutId: Int, val text: String) : ListModel {
 
   var onClick: (() -> Unit)? = null
 
-  private val key = "${Error::class.java.canonicalName}.$layoutId.$text"
+  private val key = "${ErrorModel::class.java.canonicalName}.$layoutId.$text"
 
   override fun getKey() = key
 
@@ -21,11 +21,11 @@ data class Error(val layoutId: Int, val text: String) : ListModel {
   }
 }
 
-inline fun MutableList<ListModel>.errorItem(layoutId: Int, text: String, initializer: Error.() -> Unit) {
-  add(Error(layoutId, text).apply(initializer))
+inline fun MutableList<ListModel>.errorItem(layoutId: Int, text: String, initializer: ErrorModel.() -> Unit) {
+  add(ErrorModel(layoutId, text).apply(initializer))
 }
 
-class ErrorViewHolderDelegate(private val layoutId: Int) : SimpleViewHolderDelegate<Error>() {
+class ErrorViewHolderDelegate(private val layoutId: Int) : SimpleViewHolderDelegate<ErrorModel>() {
 
   private lateinit var errorMessageTextView: TextView
 
@@ -37,7 +37,7 @@ class ErrorViewHolderDelegate(private val layoutId: Int) : SimpleViewHolderDeleg
 
   override fun layout(): Int = layoutId
 
-  override fun bind(model: Error) {
+  override fun bind(model: ErrorModel) {
     super.bind(model)
     errorMessageTextView.text = model.text
   }

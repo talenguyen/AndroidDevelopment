@@ -5,9 +5,9 @@ import vn.tiki.android.collection.SimpleViewHolderDelegate
 import vn.tiki.android.collection.ViewHolderDelegate
 import vn.tiki.android.collectionx.R
 
-object None : ListModel {
+object NoneModel : ListModel {
 
-  private val key = None::class.java.canonicalName
+  private val key = NoneModel::class.java.canonicalName
 
   override fun getKey(): String = key
 
@@ -17,6 +17,6 @@ object None : ListModel {
   }
 }
 
-class NoneViewHolderDelegate : SimpleViewHolderDelegate<None>() {
+class NoneViewHolderDelegate : SimpleViewHolderDelegate<NoneModel>() {
   override fun layout(): Int = R.layout.viewx_item_none
 }
