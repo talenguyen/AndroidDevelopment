@@ -1,17 +1,15 @@
 package vn.tiki.android.collection.sample.collectionx
 
-import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.airbnb.mvrx.fragmentViewModel
 import vn.tiki.android.collection.ListModel
 import vn.tiki.android.collection.sample.viewholder.userItem
-import vn.tiki.android.collectionx.ListFragment
-import vn.tiki.android.collectionx.ListViewModel
+import vn.tiki.android.collectionx.MvRxListFragment
 
-class DemoCollectionXFragment : ListFragment<List<String>>() {
+class DemoCollectionXFragment : MvRxListFragment<List<String>>() {
 
-  override val viewModel: ListViewModel<List<String>>
-    get() = ViewModelProviders.of(this).get(DemoCollectionXViewModel::class.java)
+  override val viewModel: DemoCollectionXViewModel by fragmentViewModel()
 
   override fun configureRecyclerView(recyclerView: RecyclerView) {
     recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

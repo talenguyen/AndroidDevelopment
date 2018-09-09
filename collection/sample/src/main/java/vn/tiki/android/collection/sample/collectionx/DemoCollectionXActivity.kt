@@ -3,7 +3,7 @@ package vn.tiki.android.collection.sample.collectionx
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import vn.tiki.android.collection.sample.R
-import vn.tiki.android.collectionx.ListFragment.ListFragmentDelegate
+import vn.tiki.android.collectionx.MvRxListFragment.ListFragmentDelegate
 
 class DemoCollectionXActivity : AppCompatActivity(), ListFragmentDelegate {
 
