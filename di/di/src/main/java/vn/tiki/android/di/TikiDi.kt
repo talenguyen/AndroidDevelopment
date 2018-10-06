@@ -26,12 +26,14 @@ object TikiDi {
     objectGraphs.removeAt(objectGraphs.size - 1)
   }
 
-  inline fun <reified T> inject(): T {
+  inline fun <reified T> get(): T {
     val objectGraph = objectGraphs.lastOrNull()
       ?: throw IllegalStateException("no scope found. You must open scope first")
 
     return objectGraph[T::class.java]
   }
+
+  inline fun <reified T> inject(): Lazy<T> = lazy { get<T>() }
 }
 
 fun module(block: Module.() -> Unit) = Module().apply(block)
